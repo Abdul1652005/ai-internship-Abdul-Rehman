@@ -20,7 +20,7 @@ This repository contains my AI Internship setup tasks.
 - [Task 02](TASK%2002%20INTERNSHIP/README.md)
 - [Task 04](TASK%2004%20INTERNSHIP/README.md)
 - [Task 05](TASK%2005/README.md)
-- [Task 07](TASK%2007%20ML%20Fundamentals/README.md) — already uploaded
+- [Task 07](TASK%2007%20ML%20Fundamentals/README.md) 
 - [Task 09](TASK%2009/README.md)
 - [Task 10](TASK%2010/README.md)
 - [Task 11](TASK%2011/README.md)
