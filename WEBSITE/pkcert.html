@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PKCERT - Pakistan Computer Emergency Response Team</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { inter: ['Inter', 'sans-serif'] },
+                    colors: {
+                        pk: {
+                            green: '#006233',
+                            darkgreen: '#01411C',
+                            lightgreen: '#00843D',
+                            gold: '#D4A843',
+                            darkgold: '#B8922E',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .ticker-animate { animation: ticker 30s linear infinite; }
+        .ticker-animate:hover { animation-play-state: paused; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+        .fade-in-up-delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .fade-in-up-delay-2 { animation-delay: 0.2s; opacity: 0; }
+        .fade-in-up-delay-3 { animation-delay: 0.3s; opacity: 0; }
+        .fade-in-up-delay-4 { animation-delay: 0.4s; opacity: 0; }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(0, 98, 51, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(0, 98, 51, 0.6); }
+        }
+        .pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #01411C 0%, #006233 40%, #00843D 70%, #006233 100%);
+        }
+
+        .card-hover { transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15); }
+
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #D4A843;
+            transition: width 300ms;
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        .threat-level-bar {
+            background: linear-gradient(90deg, #22c55e 0%, #eab308 50%, #ef4444 100%);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .slide-in { animation: slideIn 0.4s ease-out forwards; }
+
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 300ms ease;
+        }
+        .mobile-menu.open { transform: translateX(0); }
+
+        .overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 300ms;
+        }
+        .overlay.open { opacity: 1; pointer-events: auto; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Top Bar -->
+    <div class="bg-pk-darkgreen text-white text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-8">
+            <div class="flex items-center gap-4">
+                <span class="flex items-center gap-1"><i data-lucide="phone" class="w-3 h-3"></i> +92-51-9105000</span>
+                <span class="hidden sm:flex items-center gap-1"><i data-lucide="mail" class="w-3 h-3"></i> info@pkcert.gov.pk</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="#" class="hover:text-pk-gold transition-colors">Skip to Content</a>
+                <span class="text-white/30">|</span>
+                <a href="#" class="hover:text-pk-gold transition-colors">Screen Reader</a>
+                <span class="text-white/30">|</span>
+                <button id="fontSizeToggle" class="hover:text-pk-gold transition-colors flex items-center gap-1">
+                    <i data-lucide="type" class="w-3 h-3"></i> A+
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- News Ticker -->
+    <div class="bg-pk-gold text-pk-darkgreen text-sm font-medium overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center h-9">
+            <span class="bg-pk-darkgreen text-white px-3 py-1 rounded text-xs font-bold uppercase tracking-wider shrink-0 mr-4 flex items-center gap-1">
+                <i data-lucide="alert-triangle" class="w-3 h-3"></i> Alert
+            </span>
+            <div class="overflow-hidden flex-1">
+                <div class="ticker-animate flex whitespace-nowrap gap-16">
+                    <span>⚠️ Critical Vulnerability CVE-2024-3400 in Palo Alto Networks PAN-OS — Patch Immediately</span>
+                    <span>🛡️ PKCERT Advisory: Rise in Phishing Attacks Targeting Government Officials</span>
+                    <span>📢 National Cyber Security Awareness Campaign 2024 Launched</span>
+                    <span>🔒 New Guidelines for Secure Remote Work Published — Download Now</span>
+                    <span>⚠️ Critical Vulnerability CVE-2024-3400 in Palo Alto Networks PAN-OS — Patch Immediately</span>
+                    <span>🛡️ PKCERT Advisory: Rise in Phishing Attacks Targeting Government Officials</span>
+                    <span>📢 National Cyber Security Awareness Campaign 2024 Launched</span>
+                    <span>🔒 New Guidelines for Secure Remote Work Published — Download Now</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="bg-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex items-center justify-between h-16 lg:h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 shrink-0">
+                    <div class="w-12 h-12 lg:w-14 lg:h-14 bg-pk-green rounded-full flex items-center justify-center relative">
+                        <i data-lucide="shield-check" class="w-7 h-7 lg:w-8 lg:h-8 text-white"></i>
+                        <div class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-pk-gold rounded-full flex items-center justify-center">
+                            <i data-lucide="star" class="w-2.5 h-2.5 text-pk-darkgreen"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-lg lg:text-xl font-bold text-pk-green leading-tight tracking-tight">PKCERT</div>
+                        <div class="text-[10px] lg:text-xs text-gray-500 leading-tight">Pakistan Computer Emergency<br class="hidden sm:block"> Response Team</div>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav -->
+                <div class="hidden lg:flex items-center gap-1">
+                    <a href="#" class="nav-link px-3 py-2 text-sm font-medium text-pk-green hover:text-pk-darkgreen transition-colors">Home</a>
+                    <div class="relative group">
+                        <button class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-pk-green transition-colors flex items-center gap-1">
+                            About <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                        </button>
+                        <div class="absolute top-full left-0 bg-white rounded-lg shadow-xl border border-gray-100 py-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 -mt-1">
+                            <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pk-green/5 hover:text-pk-green transition-colors">About PKCERT</a>
+                            <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pk-green/5 hover:text-pk-green transition-colors">Organizational Structure</a>
+                            <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pk-green/5 hover:text-pk-green transition-colors">Governing Board</a>
+                            <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pk-green/5 hover:text-pk-green transition-colors">Team Members</a>
+                            <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pk-green/5 hover:text-pk-green transition-colors">Partners & Affiliations</a>
+                        </div>
+                    </div>
+                    <div class="relative group">
+                        <button class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-pk-green transition-colors flex items-center gap-1">
+                            Services <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                        </button>
+                        <div class="absolute top-full left-0 bg-white rounded-lg shadow-xl border border-gray-100 py-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 -mt-1">
+                            <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pk-green/5 hover:text-pk-green transition-colors">Incident Response</a>
+                            <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pk-green/5 hover:text-pk-green transition-colors">Vulnerability Assessment</a>
+                            <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pk-green/5 hover:text-pk-green transition-colors">Cyber Threat Intelligence</a>
+                            <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pk-green/5 hover:text-pk-green transition-colors">Penetration Testing</a>
+                            <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pk-green/5 hover:text-pk-green transition-colors">Security Audits</a>
+                        </div>
+                    </div>
+                    <a href="#" class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-pk-green transition-colors">Advisories</a>
+                    <a href="#" class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-pk-green transition-colors">Alerts</a>
+                    <a href="#" class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-pk-green transition-colors">Reporting</a>
+                    <div class="relative group">
+                        <button class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-pk-green transition-colors flex items-center gap-1">
+                            Resources <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                        </button>
+                        <div class="absolute top-full left-0 bg-white rounded-lg shadow-xl border border-gray-100 py-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 -mt-1">
+                            <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pk-green/5 hover:text-pk-green transition-colors">Guidelines</a>
+                            <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pk-green/5 hover:text-pk-green transition-colors">Best Practices</a>
+                            <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pk-green/5 hover:text-pk-green transition-colors">Publications</a>
+                            <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pk-green/5 hover:text-pk-green transition-colors">FAQs</a>
+                        </div>
+                    </div>
+                    <a href="#" class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-pk-green transition-colors">Contact</a>
+                </div>
+
+                <!-- CTA + Mobile Toggle -->
+                <div class="flex items-center gap-3">
+                    <a href="#report" class="hidden sm:flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                        <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                        Report Incident
+                    </a>
+                    <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <i data-lucide="menu" class="w-6 h-6 text-gray-700"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="overlay" class="overlay fixed inset-0 bg-black/50 z-50"></div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu fixed top-0 left-0 h-full w-80 bg-white z-50 shadow-2xl overflow-y-auto">
+        <div class="p-5 border-b border-gray-100 flex items-center justify-between">
+            <span class="text-lg font-bold text-pk-green">PKCERT</span>
+            <button id="mobileMenuClose" class="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <div class="p-4 space-y-1">
+            <a href="#" class="block px-4 py-3 rounded-lg text-sm font-medium text-pk-green bg-pk-green/5">Home</a>
+            <div class="mobile-accordion">
+                <button class="w-full flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                    About <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                </button>
+                <div class="hidden pl-4 space-y-1 pb-2">
+                    <a href="#" class="block px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50">About PKCERT</a>
+                    <a href="#" class="block px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50">Organizational Structure</a>
+                    <a href="#" class="block px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50">Governing Board</a>
+                    <a href="#" class="block px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50">Team Members</a>
+                </div>
+            </div>
+            <div class="mobile-accordion">
+                <button class="w-full flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                    Services <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                </button>
+                <div class="hidden pl-4 space-y-1 pb-2">
+                    <a href="#" class="block px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50">Incident Response</a>
+                    <a href="#" class="block px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50">Vulnerability Assessment</a>
+                    <a href="#" class="block px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50">Cyber Threat Intelligence</a>
+                    <a href="#" class="block px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50">Penetration Testing</a>
+                </div>
+            </div>
+            <a href="#" class="block px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">Advisories</a>
+            <a href="#" class="block px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">Alerts</a>
+            <a href="#" class="block px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">Reporting</a>
+            <a href="#" class="block px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">Resources</a>
+            <a href="#" class="block px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">Contact</a>
+        </div>
+        <div class="p-4 border-t border-gray-100">
+            <a href="#report" class="flex items-center justify-center gap-2 bg-red-600 text-white px-4 py-3 rounded-lg text-sm font-medium">
+                <i data-lucide="alert-circle" class="w-4 h-4"></i> Report Incident
+            </a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-10">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+                        <path d="M 60 0 L 0 0 0 60" fill="none" stroke="white" stroke-width="0.5"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)"/>
+            </svg>
+        </div>
+        <!-- Floating Elements -->
+        <div class="absolute top-20 right-10 w-64 h-64 bg-pk-gold/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-10 left-10 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-20 lg:py-32 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div class="text-white">
+                    <div class="fade-in-up inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
+                        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                        <span class="text-sm font-medium">National Cyber Security Authority</span>
+                    </div>
+                    <h1 class="fade-in-up fade-in-up-delay-1 text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-6">
+                        Securing Pakistan's
+                        <span class="text-pk-gold"> Cyber Space</span>
+                    </h1>
+                    <p class="fade-in-up fade-in-up-delay-2 text-lg text-white/80 leading-relaxed mb-8 max-w-xl">
+                        Pakistan Computer Emergency Response Team serves as the national focal point for cybersecurity incident response, vulnerability management, and coordination of cyber defense activities.
+                    </p>
+                    <div class="fade-in-up fade-in-up-delay-3 flex flex-wrap gap-4">
+                        <a href="#report" class="inline-flex items-center gap-2 bg-pk-gold hover:bg-pk-darkgold text-pk-darkgreen font-semibold px-8 py-3.5 rounded-lg transition-all duration-150 shadow-lg shadow-pk-gold/20">
+                            <i data-lucide="shield-alert" class="w-5 h-5"></i>
+                            Report an Incident
+                        </a>
+                        <a href="#services" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 text-white font-medium px-8 py-3.5 rounded-lg transition-all duration-150">
+                            <i data-lucide="info" class="w-5 h-5"></i>
+                            Learn More
+                        </a>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="fade-in-up fade-in-up-delay-4 grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-white/20">
+                        <div>
+                            <div class="text-3xl lg:text-4xl font-bold text-pk-gold" id="stat1">0</div>
+                            <div class="text-sm text-white/60 mt-1">Incidents Handled</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl lg:text-4xl font-bold text-pk-gold" id="stat2">0</div>
+                            <div class="text-sm text-white/60 mt-1">Advisories Issued</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl lg:text-4xl font-bold text-pk-gold" id="stat3">0</div>
+                            <div class="text-sm text-white/60 mt-1">Organizations Served</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Image / Shield Visual -->
+                <div class="hidden lg:flex justify-center">
+                    <div class="relative">
+                        <div class="w-80 h-80 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-center pulse-glow">
+                            <div class="w-60 h-60 rounded-full bg-white/10 flex items-center justify-center">
+                                <i data-lucide="shield-check" class="w-28 h-28 text-pk-gold"></i>
+                            </div>
+                        </div>
+                        <!-- Orbiting badges -->
+                        <div class="absolute top-4 right-4 bg-white rounded-xl shadow-2xl p-3 flex items-center gap-2 animate-bounce" style="animation-duration: 3s;">
+                            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                <i data-lucide="bug" class="w-5 h-5 text-red-600"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold text-gray-900">12 New</div>
+                                <div class="text-[10px] text-gray-500">Vulnerabilities</div>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-8 left-0 bg-white rounded-xl shadow-2xl p-3 flex items-center gap-2 animate-bounce" style="animation-duration: 4s; animation-delay: 1s;">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-600"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold text-gray-900">98.5% Resolved</div>
+                                <div class="text-[10px] text-gray-500">This Month</div>
+                            </div>
+                        </div>
+                        <div class="absolute top-1/2 -left-8 bg-white rounded-xl shadow-2xl p-3 flex items-center gap-2 animate-bounce" style="animation-duration: 3.5s; animation-delay: 0.5s;">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i data-lucide="activity" class="w-5 h-5 text-blue-600"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold text-gray-900">24/7</div>
+                                <div class="text-[10px] text-gray-500">Monitoring</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wave Bottom -->
+        <div class="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 60L48 55C96 50 192 40 288 35C384 30 480 30 576 33.3C672 36.7 768 43.3 864 45C960 46.7 1056 43.3 1152 38.3C1248 33.3 1344 26.7 1392 23.3L1440 20V60H0Z" fill="#f9fafb"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Threat Level Banner -->
+    <section class="bg-white border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="siren" class="w-5 h-5 text-red-500"></i>
+                        <span class="text-sm font-semibold text-gray-900">National Threat Level:</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-48 h-3 rounded-full overflow-hidden bg-gray-200">
+                            <div class="threat-level-bar h-full rounded-full" style="width: 65%;"></div>
+                        </div>
+                        <span class="text-sm font-bold text-yellow-600 bg-yellow-50 px-3 py-1 rounded-full">ELEVATED</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 text-xs text-gray-500">
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> All Systems Operational</span>
+                    <span>Last Updated: 5 min ago</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="py-12 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
+                <a href="#report" class="card-hover bg-white rounded-2xl p-6 text-center border border-gray-100 group cursor-pointer">
+                    <div class="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-red-100 transition-colors">
+                        <i data-lucide="alert-circle" class="w-7 h-7 text-red-600"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-1">Report Incident</h3>
+                    <p class="text-xs text-gray-500">Submit a cyber incident report</p>
+                </a>
+                <a href="#" class="card-hover bg-white rounded-2xl p-6 text-center border border-gray-100 group cursor-pointer">
+                    <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors">
+                        <i data-lucide="file-warning" class="w-7 h-7 text-blue-600"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-1">View Advisories</h3>
+                    <p class="text-xs text-gray-500">Latest security advisories</p>
+                </a>
+                <a href="#" class="card-hover bg-white rounded-2xl p-6 text-center border border-gray-100 group cursor-pointer">
+                    <div class="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-green-100 transition-colors">
+                        <i data-lucide="scan-search" class="w-7 h-7 text-green-600"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-1">Vulnerability Check</h3>
+                    <p class="text-xs text-gray-500">Check known vulnerabilities</p>
+                </a>
+                <a href="#" class="card-hover bg-white rounded-2xl p-6 text-center border border-gray-100 group cursor-pointer">
+                    <div class="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-100 transition-colors">
+                        <i data-lucide="book-open" class="w-7 h-7 text-purple-600"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-1">Guidelines</h3>
+                    <p class="text-xs text-gray-500">Security best practices</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-16 lg:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-pk-green bg-pk-green/10 px-3 py-1.5 rounded-full">About PKCERT</span>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mt-6 mb-6 tracking-tight">Pakistan's National Cyber<br>Defense Frontline</h2>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        PKCERT operates under the National Telecommunication Corporation (NTC) as the national Computer Emergency Response Team. Established to protect Pakistan's critical information infrastructure, PKCERT coordinates cyber security incident response and provides technical assistance to government organizations, critical infrastructure operators, and the broader cybersecurity community.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed mb-8">
+                        As a member of the global CERT community, PKCERT collaborates with international partners to share threat intelligence and coordinate cross-border incident response activities.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-pk-green/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                                <i data-lucide="check" class="w-4 h-4 text-pk-green"></i>
+                            </div>
+                            <span class="text-sm text-gray-700">24/7 Incident Response</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-pk-green/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                                <i data-lucide="check" class="w-4 h-4 text-pk-green"></i>
+                            </div>
+                            <span class="text-sm text-gray-700">Threat Intelligence</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-pk-green/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                                <i data-lucide="check" class="w-4 h-4 text-pk-green"></i>
+                            </div>
+                            <span class="text-sm text-gray-700">Vulnerability Management</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-pk-green/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                                <i data-lucide="check" class="w-4 h-4 text-pk-green"></i>
+                            </div>
+                            <span class="text-sm text-gray-700">Capacity Building</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <img src="https://picsum.photos/seed/pkcert-cyber/640/480.jpg" alt="Cybersecurity Operations Center" class="rounded-2xl shadow-xl w-full object-cover aspect-[4/3]">
+                    <div class="absolute -bottom-6 -left-6 bg-pk-green text-white rounded-2xl p-5 shadow-xl hidden sm:block">
+                        <div class="text-3xl font-bold">Since</div>
+                        <div class="text-4xl font-bold text-pk-gold">2004</div>
+                        <div class="text-sm text-white/70 mt-1">Serving the Nation</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 lg:py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-xs font-bold uppercase tracking-widest text-pk-green bg-pk-green/10 px-3 py-1.5 rounded-full">Our Services</span>
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mt-6 mb-4 tracking-tight">Comprehensive Cybersecurity Services</h2>
+                <p class="text-gray-600">PKCERT provides a wide range of cybersecurity services to protect and defend Pakistan's digital infrastructure.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Service 1 -->
+                <div class="card-hover bg-white rounded-2xl p-8 border border-gray-100 group">
+                    <div class="w-14 h-14 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-red-500/20">
+                        <i data-lucide="siren" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-3">Incident Response</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed mb-4">24/7 incident handling and response capabilities for cybersecurity incidents affecting government and critical infrastructure entities.</p>
+                    <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-pk-green hover:text-pk-darkgreen transition-colors group/link">
+                        Learn More <i data-lucide="arrow-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+                <!-- Service 2 -->
+                <div class="card-hover bg-white rounded-2xl p-8 border border-gray-100 group">
+                    <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/20">
+                        <i data-lucide="search" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-3">Vulnerability Assessment</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed mb-4">Systematic identification, quantification, and prioritization of vulnerabilities in IT systems and networks.</p>
+                    <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-pk-green hover:text-pk-darkgreen transition-colors group/link">
+                        Learn More <i data-lucide="arrow-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+                <!-- Service 3 -->
+                <div class="card-hover bg-white rounded-2xl p-8 border border-gray-100 group">
+                    <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-purple-500/20">
+                        <i data-lucide="brain" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-3">Threat Intelligence</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed mb-4">Strategic, tactical, and operational cyber threat intelligence gathering, analysis, and dissemination.</p>
+                    <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-pk-green hover:text-pk-darkgreen transition-colors group/link">
+                        Learn More <i data-lucide="arrow-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+                <!-- Service 4 -->
+                <div class="card-hover bg-white rounded-2xl p-8 border border-gray-100 group">
+                    <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-green-500/20">
+                        <i data-lucide="target" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-3">Penetration Testing</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed mb-4">Authorized simulated cyberattacks on computer systems to evaluate security posture and identify exploitable weaknesses.</p>
+                    <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-pk-green hover:text-pk-darkgreen transition-colors group/link">
+                        Learn More <i data-lucide="arrow-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+                <!-- Service 5 -->
+                <div class="card-hover bg-white rounded-2xl p-8 border border-gray-100 group">
+                    <div class="w-14 h-14 bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-amber-500/20">
+                        <i data-lucide="clipboard-check" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-3">Security Audits</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed mb-4">Comprehensive security audits and compliance assessments based on international standards and frameworks.</p>
+                    <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-pk-green hover:text-pk-darkgreen transition-colors group/link">
+                        Learn More <i data-lucide="arrow-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+                <!-- Service 6 -->
+                <div class="card-hover bg-white rounded-2xl p-8 border border-gray-100 group">
+                    <div class="w-14 h-14 bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-teal-500/20">
+                        <i data-lucide="graduation-cap" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-3">Training & Awareness</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed mb-4">Cybersecurity training programs, workshops, and awareness campaigns for government officials and organizations.</p>
+                    <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-pk-green hover:text-pk-darkgreen transition-colors group/link">
+                        Learn More <i data-lucide="arrow-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Advisories Section -->
+    <section class="py-16 lg:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-10 gap-4">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-pk-green bg-pk-green/10 px-3 py-1.5 rounded-full">Security Alerts</span>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mt-4 tracking-tight">Latest Advisories</h2>
+                </div>
+                <a href="#" class="inline-flex items-center gap-2 text-sm font-medium text-pk-green hover:text-pk-darkgreen transition-colors border border-pk-green/20 rounded-lg px-4 py-2 hover:bg-pk-green/5">
+                    View All Advisories <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Advisory 1 -->
+                <div class="card-hover bg-white rounded-xl border border-gray-200 hover:border-red-200 p-5 lg:p-6 flex flex-col lg:flex-row items-start gap-4 lg:gap-6 cursor-pointer">
+                    <div class="shrink-0">
+                        <span class="inline-flex items-center gap-1 bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold uppercase">
+                            <i data-lucide="alert-octagon" class="w-3.5 h-3.5"></i> Critical
+                        </span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-semibold text-gray-900 mb-1 hover:text-pk-green transition-colors">PKCERT-2024-0047: Critical RCE Vulnerability in Microsoft Windows Kernel (CVE-2024-38077)</h3>
+                        <p class="text-sm text-gray-500 line-clamp-2">A remote code execution vulnerability exists in Microsoft Windows Kernel that could allow an attacker to execute arbitrary code with elevated privileges. All supported versions of Windows are affected.</p>
+                    </div>
+                    <div class="shrink-0 text-right">
+                        <div class="text-sm font-medium text-gray-700">Jun 15, 2024</div>
+                        <div class="text-xs text-gray-400 mt-1">Microsoft Windows</div>
+                    </div>
+                </div>
+                <!-- Advisory 2 -->
+                <div class="card-hover bg-white rounded-xl border border-gray-200 hover:border-orange-200 p-5 lg:p-6 flex flex-col lg:flex-row items-start gap-4 lg:gap-6 cursor-pointer">
+                    <div class="shrink-0">
+                        <span class="inline-flex items-center gap-1 bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold uppercase">
+                            <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> High
+                        </span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-semibold text-gray-900 mb-1 hover:text-pk-green transition-colors">PKCERT-2024-0046: Active Exploitation of Apache Struts2 Vulnerability (CVE-2024-53677)</h3>
+                        <p class="text-sm text-gray-500 line-clamp-2">PKCERT has received reports of active exploitation of a path traversal vulnerability in Apache Struts2. Organizations using affected versions are urged to apply patches immediately.</p>
+                    </div>
+                    <div class="shrink-0 text-right">
+                        <div class="text-sm font-medium text-gray-700">Jun 12, 2024</div>
+                        <div class="text-xs text-gray-400 mt-1">Apache Struts</div>
+                    </div>
+                </div>
+                <!-- Advisory 3 -->
+                <div class="card-hover bg-white rounded-xl border border-gray-200 hover:border-yellow-200 p-5 lg:p-6 flex flex-col lg:flex-row items-start gap-4 lg:gap-6 cursor-pointer">
+                    <div class="shrink-0">
+                        <span class="inline-flex items-center gap-1 bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-bold uppercase">
+                            <i data-lucide="info" class="w-3.5 h-3.5"></i> Medium
+                        </span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-semibold text-gray-900 mb-1 hover:text-pk-green transition-colors">PKCERT-2024-0045: Phishing Campaign Targeting Government Email Accounts</h3>
+                        <p class="text-sm text-gray-500 line-clamp-2">A sophisticated phishing campaign has been identified targeting government email accounts using spoofed login pages. Users are advised to verify email senders and enable MFA.</p>
+                    </div>
+                    <div class="shrink-0 text-right">
+                        <div class="text-sm font-medium text-gray-700">Jun 10, 2024</div>
+                        <div class="text-xs text-gray-400 mt-1">Phishing</div>
+                    </div>
+                </div>
+                <!-- Advisory 4 -->
+                <div class="card-hover bg-white rounded-xl border border-gray-200 hover:border-yellow-200 p-5 lg:p-6 flex flex-col lg:flex-row items-start gap-4 lg:gap-6 cursor-pointer">
+                    <div class="shrink-0">
+                        <span class="inline-flex items-center gap-1 bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-bold uppercase">
+                            <i data-lucide="info" class="w-3.5 h-3.5"></i> Medium
+                        </span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-semibold text-gray-900 mb-1 hover:text-pk-green transition-colors">PKCERT-2024-0044: Security Update for Cisco IOS XE Software (Multiple Vulnerabilities)</h3>
+                        <p class="text-sm text-gray-500 line-clamp-2">Cisco has released security updates addressing multiple vulnerabilities in IOS XE Software. Several of these vulnerabilities could allow denial of service or information disclosure.</p>
+                    </div>
+                    <div class="shrink-0 text-right">
+                        <div class="text-sm font-medium text-gray-700">Jun 08, 2024</div>
+                        <div class="text-xs text-gray-400 mt-1">Cisco IOS XE</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Report Incident Section -->
+    <section id="report" class="py-16 lg:py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-red-600 bg-red-50 px-3 py-1.5 rounded-full">Emergency</span>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mt-6 mb-6 tracking-tight">Report a Cyber Security Incident</h2>
+                    <p class="text-gray-600 leading-relaxed mb-8">
+                        If your organization has experienced a cybersecurity incident, please report it immediately. Our team is available 24/7 to assist with incident response and mitigation.
+                    </p>
+
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start gap-4 bg-white rounded-xl p-4 border border-gray-100">
+                            <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center shrink-0">
+                                <i data-lucide="phone" class="w-5 h-5 text-red-600"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-gray-900 text-sm">Emergency Hotline</div>
+                                <div class="text-sm text-gray-500 mt-0.5">+92-51-9105000 (24/7)</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 bg-white rounded-xl p-4 border border-gray-100">
+                            <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center shrink-0">
+                                <i data-lucide="mail" class="w-5 h-5 text-blue-600"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-gray-900 text-sm">Email Report</div>
+                                <div class="text-sm text-gray-500 mt-0.5">incident@pkcert.gov.pk</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 bg-white rounded-xl p-4 border border-gray-100">
+                            <div class="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center shrink-0">
+                                <i data-lucide="file-text" class="w-5 h-5 text-green-600"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-gray-900 text-sm">Online Form</div>
+                                <div class="text-sm text-gray-500 mt-0.5">Use the form to submit a detailed report</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Incident Report Form -->
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 lg:p-8">
+                    <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                        <i data-lucide="file-plus" class="w-5 h-5 text-pk-green"></i>
+                        Incident Report Form
+                    </h3>
+                    <form id="incidentForm" class="space-y-5">
+                        <div class="grid sm:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Full Name *</label>
+                                <input type="text" required class="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-pk-green/20 focus:border-pk-green transition-colors" placeholder="Your name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Organization *</label>
+                                <input type="text" required class="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-pk-green/20 focus:border-pk-green transition-colors" placeholder="Organization name">
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Email *</label>
+                                <input type="email" required class="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-pk-green/20 focus:border-pk-green transition-colors" placeholder="your@email.gov.pk">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Phone</label>
+                                <input type="tel" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-pk-green/20 focus:border-pk-green transition-colors" placeholder="+92-XXX-XXXXXXX">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Incident Type *</label>
+                            <select required class="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-pk-green/20 focus:border-pk-green transition-colors text-gray-600">
+                                <option value="">Select incident type</option>
+                                <option>Phishing Attack</option>
+                                <option>Malware / Ransomware</option>
+                                <option>Unauthorized Access</option>
+                                <option>DDoS Attack</option>
+                                <option>Data Breach</option>
+                                <option>Web Defacement</option>
+                                <option>Social Engineering</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Severity Level *</label>
+                            <div class="grid grid-cols-4 gap-3">
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="severity" value="low" class="peer sr-only">
+                                    <div class="text-center py-2.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-600 peer-checked:border-green-500 peer-checked:bg-green-50 peer-checked:text-green-700 transition-all hover:border-gray-300">Low</div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="severity" value="medium" class="peer sr-only">
+                                    <div class="text-center py-2.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-600 peer-checked:border-yellow-500 peer-checked:bg-yellow-50 peer-checked:text-yellow-700 transition-all hover:border-gray-300">Medium</div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="severity" value="high" class="peer sr-only">
+                                    <div class="text-center py-2.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-600 peer-checked:border-orange-500 peer-checked:bg-orange-50 peer-checked:text-orange-700 transition-all hover:border-gray-300">High</div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="severity" value="critical" class="peer sr-only">
+                                    <div class="text-center py-2.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-600 peer-checked:border-red-500 peer-checked:bg-red-50 peer-checked:text-red-700 transition-all hover:border-gray-300">Critical</div>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Incident Description *</label>
+                            <textarea required rows="4" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-pk-green/20 focus:border-pk-green transition-colors resize-none" placeholder="Please provide a detailed description of the incident..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-pk-green hover:bg-pk-darkgreen text-white font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="send" class="w-4 h-4"></i>
+                            Submit Incident Report
+                        </button>
+                    </form>
+                    <!-- Success Toast -->
+                    <div id="formSuccess" class="hidden mt-4 bg-green-50 border border-green-200 rounded-lg p-4 text-sm text-green-700 flex items-center gap-2">
+                        <i data-lucide="check-circle" class="w-5 h-5 shrink-0"></i>
+                        <span>Your incident report has been submitted successfully. Our team will contact you shortly.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cyber Threat Stats Section -->
+    <section class="py-16 lg:py-24 hero-gradient relative overflow-hidden">
+        <div class="absolute inset-0 opacity-5">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="grid2" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <circle cx="20" cy="20" r="1" fill="white"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid2)"/>
+            </svg>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+            <div class="text-center mb-12">
+                <span class="text-xs font-bold uppercase tracking-widest text-pk-gold bg-pk-gold/10 px-3 py-1.5 rounded-full">2024 Statistics</span>
+                <h2 class="text-3xl lg:text-4xl font-bold text-white mt-6 tracking-tight">Cyber Threat Landscape</h2>
+            </div>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="text-4xl lg:text-5xl font-bold text-pk-gold mb-2">3,847</div>
+                    <div class="text-sm text-white/60">Total Incidents Reported</div>
+                    <div class="mt-3 inline-flex items-center gap-1 text-xs text-green-400">
+                        <i data-lucide="trending-up" class="w-3 h-3"></i> +12% from last year
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl lg:text-5xl font-bold text-pk-gold mb-2">156</div>
+                    <div class="text-sm text-white/60">Advisories Published</div>
+                    <div class="mt-3 inline-flex items-center gap-1 text-xs text-green-400">
+                        <i data-lucide="trending-up" class="w-3 h-3"></i> +8% from last year
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl lg:text-5xl font-bold text-pk-gold mb-2">98.5%</div>
+                    <div class="text-sm text-white/60">Resolution Rate</div>
+                    <div class="mt-3 inline-flex items-center gap-1 text-xs text-green-400">
+                        <i data-lucide="trending-up" class="w-3 h-3"></i> +2.1% improvement
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl lg:text-5xl font-bold text-pk-gold mb-2">4.2 hrs</div>
+                    <div class="text-sm text-white/60">Avg. Response Time</div>
+                    <div class="mt-3 inline-flex items-center gap-1 text-xs text-green-400">
+                        <i data-lucide="trending-down" class="w-3 h-3"></i> -35% faster
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="py-16 lg:py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-10">
+                <span class="text-xs font-bold uppercase tracking-widest text-pk-green bg-pk-green/10 px-3 py-1.5 rounded-full">Our Partners</span>
+                <h2 class="text-3xl font-bold text-gray-900 mt-4 tracking-tight">Collaborations & Affiliations</h2>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+                <div class="flex items-center justify-center h-20 bg-gray-50 rounded-xl border border-gray-100 hover:shadow-md transition-all group cursor-pointer">
+                    <div class="text-center">
+                        <i data-lucide="globe" class="w-8 h-8 text-gray-400 group-hover:text-pk-green transition-colors mx-auto"></i>
+                        <div class="text-[10px] text-gray-500 mt-1 font-medium">FIRST.org</div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center h-20 bg-gray-50 rounded-xl border border-gray-100 hover:shadow-md transition-all group cursor-pointer">
+                    <div class="text-center">
+                        <i data-lucide="shield" class="w-8 h-8 text-gray-400 group-hover:text-pk-green transition-colors mx-auto"></i>
+                        <div class="text-[10px] text-gray-500 mt-1 font-medium">APCERT</div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center h-20 bg-gray-50 rounded-xl border border-gray-100 hover:shadow-md transition-all group cursor-pointer">
+                    <div class="text-center">
+                        <i data-lucide="landmark" class="w-8 h-8 text-gray-400 group-hover:text-pk-green transition-colors mx-auto"></i>
+                        <div class="text-[10px] text-gray-500 mt-1 font-medium">MoITT</div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center h-20 bg-gray-50 rounded-xl border border-gray-100 hover:shadow-md transition-all group cursor-pointer">
+                    <div class="text-center">
+                        <i data-lucide="building-2" class="w-8 h-8 text-gray-400 group-hover:text-pk-green transition-colors mx-auto"></i>
+                        <div class="text-[10px] text-gray-500 mt-1 font-medium">NTC</div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center h-20 bg-gray-50 rounded-xl border border-gray-100 hover:shadow-md transition-all group cursor-pointer">
+                    <div class="text-center">
+                        <i data-lucide="lock" class="w-8 h-8 text-gray-400 group-hover:text-pk-green transition-colors mx-auto"></i>
+                        <div class="text-[10px] text-gray-500 mt-1 font-medium">NCA</div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center h-20 bg-gray-50 rounded-xl border border-gray-100 hover:shadow-md transition-all group cursor-pointer">
+                    <div class="text-center">
+                        <i data-lucide="network" class="w-8 h-8 text-gray-400 group-hover:text-pk-green transition-colors mx-auto"></i>
+                        <div class="text-[10px] text-gray-500 mt-1 font-medium">ITU</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 lg:py-24 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+            <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-10 lg:p-16 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-pk-green/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                <div class="absolute bottom-0 left-0 w-48 h-48 bg-pk-gold/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+                <div class="relative z-10">
+                    <div class="w-16 h-16 bg-pk-green/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="shield-question" class="w-8 h-8 text-pk-green"></i>
+                    </div>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 tracking-tight">Need Cybersecurity Assistance?</h2>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
+                        Whether you're dealing with an active threat, need a security assessment, or want to enhance your organization's cyber resilience — we're here to help.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a href="#report" class="inline-flex items-center gap-2 bg-pk-green hover:bg-pk-darkgreen text-white font-semibold px-8 py-3.5 rounded-lg transition-colors shadow-lg shadow-pk-green/20">
+                            <i data-lucide="alert-circle" class="w-5 h-5"></i>
+                            Report Incident
+                        </a>
+                        <a href="#" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium px-8 py-3.5 rounded-lg transition-colors">
+                            <i data-lucide="phone" class="w-5 h-5"></i>
+                            Contact Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-pk-darkgreen text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-16">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+                <!-- Col 1: About -->
+                <div>
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-pk-gold"></i>
+                        </div>
+                        <div class="text-lg font-bold">PKCERT</div>
+                    </div>
+                    <p class="text-sm text-white/60 leading-relaxed mb-6">
+                        Pakistan Computer Emergency Response Team — National focal point for cybersecurity incident response and coordination.
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <a href="#" class="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors">
+                            <i data-lucide="twitter" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors">
+                            <i data-lucide="facebook" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors">
+                            <i data-lucide="linkedin" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors">
+                            <i data-lucide="youtube" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- Col 2: Quick Links -->
+                <div>
+                    <h4 class="font-semibold text-sm uppercase tracking-wider text-pk-gold mb-5">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-sm text-white/60 hover:text-white transition-colors">About PKCERT</a></li>
+                        <li><a href="#" class="text-sm text-white/60 hover:text-white transition-colors">Services</a></li>
+                        <li><a href="#" class="text-sm text-white/60 hover:text-white transition-colors">Security Advisories</a></li>
+                        <li><a href="#" class="text-sm text-white/60 hover:text-white transition-colors">Threat Alerts</a></li>
+                        <li><a href="#" class="text-sm text-white/60 hover:text-white transition-colors">Report Incident</a></li>
+                        <li><a href="#" class="text-sm text-white/60 hover:text-white transition-colors">FAQs</a></li>
+                    </ul>
+                </div>
+                <!-- Col 3: Resources -->
+                <div>
+                    <h4 class="font-semibold text-sm uppercase tracking-wider text-pk-gold mb-5">Resources</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-sm text-white/60 hover:text-white transition-colors">Security Guidelines</a></li>
+                        <li><a href="#" class="text-sm text-white/60 hover:text-white transition-colors">Best Practices</a></li>
+                        <li><a href="#" class="text-sm text-white/60 hover:text-white transition-colors">Publications</a></li>
+                        <li><a href="#" class="text-sm text-white/60 hover:text-white transition-colors">Cyber Laws</a></li>
+                        <li><a href="#" class="text-sm text-white/60 hover:text-white transition-colors">Training Materials</a></li>
+                        <li><a href="#" class="text-sm text-white/60 hover:text-white transition-colors">Downloads</a></li>
+                    </ul>
+                </div>
+                <!-- Col 4: Contact -->
+                <div>
+                    <h4 class="font-semibold text-sm uppercase tracking-wider text-pk-gold mb-5">Contact Info</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-pk-gold shrink-0 mt-0.5"></i>
+                            <span class="text-sm text-white/60">NTC Complex, G-5/2, Islamabad, Pakistan</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="phone" class="w-4 h-4 text-pk-gold shrink-0"></i>
+                            <span class="text-sm text-white/60">+92-51-9105000</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="mail" class="w-4 h-4 text-pk-gold shrink-0"></i>
+                            <span class="text-sm text-white/60">info@pkcert.gov.pk</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="clock" class="w-4 h-4 text-pk-gold shrink-0"></i>
+                            <span class="text-sm text-white/60">24/7 Operations</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Bottom Bar -->
+        <div class="border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-xs text-white/40">© 2024 Pakistan Computer Emergency Response Team (PKCERT). All rights reserved.</p>
+                <div class="flex items-center gap-4 text-xs text-white/40">
+                    <a href="#" class="hover:text-white/70 transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white/70 transition-colors">Terms of Use</a>
+                    <a href="#" class="hover:text-white/70 transition-colors">Disclaimer</a>
+                    <a href="#" class="hover:text-white/70 transition-colors">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button id="backToTop" class="fixed bottom-6 right-6 w-12 h-12 bg-pk-green hover:bg-pk-darkgreen text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 opacity-0 translate-y-4 pointer-events-none z-40">
+        <i data-lucide="arrow-up" class="w-5 h-5"></i>
+    </button>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+        const overlay = document.getElementById('overlay');
+
+        function openMenu() {
+            mobileMenu.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMenu() {
+            mobileMenu.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        mobileMenuBtn.addEventListener('click', openMenu);
+        mobileMenuClose.addEventListener('click', closeMenu);
+        overlay.addEventListener('click', closeMenu);
+
+        // Mobile Accordion
+        document.querySelectorAll('.mobile-accordion button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const content = btn.nextElementSibling;
+                const icon = btn.querySelector('[data-lucide="chevron-down"]');
+                const isOpen = !content.classList.contains('hidden');
+                
+                // Close all
+                document.querySelectorAll('.mobile-accordion div').forEach(el => {
+                    el.classList.add('hidden');
+                });
+                document.querySelectorAll('.mobile-accordion [data-lucide="chevron-down"]').forEach(ic => {
+                    ic.style.transform = 'rotate(0deg)';
+                });
+
+                if (!isOpen) {
+                    content.classList.remove('hidden');
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+
+        // Back to Top
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTop.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+                backToTop.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                backToTop.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+                backToTop.classList.remove('opacity-100', 'translate-y-0');
+            }
+        });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Counter Animation
+        function animateCounter(el, target, suffix = '') {
+            let current = 0;
+            const increment = target / 60;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                el.textContent = Math.floor(current).toLocaleString() + suffix;
+            }, 25);
+        }
+
+        // Intersection Observer for counters
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(document.getElementById('stat1'), 3847, '+');
+                    animateCounter(document.getElementById('stat2'), 156, '+');
+                    animateCounter(document.getElementById('stat3'), 250, '+');
+                    statsObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.5 });
+        statsObserver.observe(document.getElementById('stat1'));
+
+        // Form Submission
+        document.getElementById('incidentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            this.style.display = 'none';
+            document.getElementById('formSuccess').classList.remove('hidden');
+            document.getElementById('formSuccess').classList.add('flex');
+            lucide.createIcons();
+            setTimeout(() => {
+                this.style.display = '';
+                this.reset();
+                document.getElementById('formSuccess').classList.add('hidden');
+                document.getElementById('formSuccess').classList.remove('flex');
+            }, 5000);
+        });
+
+        // Font size toggle
+        let fontSizeLevel = 0;
+        const fontSizes = ['100%', '110%', '120%'];
+        document.getElementById('fontSizeToggle').addEventListener('click', () => {
+            fontSizeLevel = (fontSizeLevel + 1) % fontSizes.length;
+            document.body.style.fontSize = fontSizes[fontSizeLevel];
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    closeMenu();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
